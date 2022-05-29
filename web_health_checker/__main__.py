@@ -1,9 +1,7 @@
 import sys
 from argparse import ArgumentParser, Namespace
-
-import requests
-from requests.exceptions import (ConnectionError, HTTPError, Timeout,
-                                 TooManyRedirects)
+from urllib.error import HTTPError
+from urllib.request import urlopen
 
 
 def eprint(*values: object):
@@ -26,23 +24,17 @@ def parse_args():
 
 def main(args: Namespace):
     try:
-        req = requests.get(
+        with urlopen(
             args.url,
             timeout=args.timeout,
-            allow_redirects=False
-        )
-        req.raise_for_status()
-    except HTTPError:
-        eprint(f"⛔ http status '{req.status_code}'")
-    except ConnectionError:
-        eprint("⛔ connection error")
-    except Timeout:
-        eprint("⛔ timeout error")
-    except TooManyRedirects:
-        eprint("⛔ to many redirects")
-    else:
-        print("🆗")
-        return
+        ) as response:
+            if response.read().decode() != "🆗":
+                eprint(f"⛔ missing '🆗' in response")
+            else:
+                print("🆗")
+                return
+    except HTTPError as err:
+        eprint(f"⛔ http status '{err.code}'")
 
     exit(1)
 
