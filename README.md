@@ -17,8 +17,9 @@ positional arguments:
   url                url to query for status
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --timeout TIMEOUT  timeout before connection fail
+  -h, --help          show this help message and exit
+  --timeout TIMEOUT   timeout before connection fail
+  --allow-unverified  allows for invalid self-signed certificates to be valid
 ```
 
 Example:
@@ -29,8 +30,10 @@ python -m web_health_checker http://localhost:8080/is-healthy
 
 After the command has been run depending on the state of the server different results will be output. These are shown below. The output will be sent to stdout if there is no error and stderr if there is an error.
 
-| Output                          | Why                                                 | Is Error |
-| :------------------------------ | :-------------------------------------------------- | :------- |
-| `🆗`                             | Everything is fine                                  | No       |
-| `⛔ missing '🆗' in response`     | The server does not return the expected ok response | Yes      |
-| `⛔ http status '<status-code>'` | The server sent incorrect status code               | Yes      |
+| Output                             | Why                                                 | Is Error |
+| :--------------------------------- | :-------------------------------------------------- | :------- |
+| `🆗`                                | Everything is fine                                  | No       |
+| `⛔ missing '🆗' in response`        | The server does not return the expected ok response | Yes      |
+| `⛔ http status '<status-code>'`    | The server sent incorrect status code               | Yes      |
+| `⛔ url error <reason>`             | A URL error was detected                            | Yes      |
+| `⛔ remote closed without response` | The remote server closed the connection             | Yes      |
