@@ -4,7 +4,7 @@ A health checker for a website with a is-healthy route.
 > This is mostly intended to be used in my projects.
 
 ## Usage
-It is expected that the server url are querying will return a "🆗" with a 200 status code for a response. Sending anything else will result in the server signalling an error.
+It is expected that the server url you are querying will return a "🆗" with a 200 status code for a response. Sending anything else will result in the server signalling an error.
 
 To run the program from CLI the following is the help dialogue:
 
